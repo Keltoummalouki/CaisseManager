@@ -49,11 +49,10 @@ export default function ClientsSection() {
         start: 'left center',
         end: 'right center',
         toggleClass: { targets: card, className: 'is-active' },
-        immediateRender: index === 0, // 👈 active la 1ère carte dès le début
+        immediateRender: index === 0,
       })
     })
 
-    // Optional: Refresh on resize
     const handleResize = () => ScrollTrigger.refresh()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
@@ -64,10 +63,10 @@ export default function ClientsSection() {
       ref={sectionRef}
       className="relative h-screen bg-white dark:bg-black overflow-hidden"
     >
-      <div ref={trackRef}>
-        <h2 className="text-4xl font-bold text-center text-black dark:text-white py-10">
+      <h2 className="text-4xl font-bold text-center text-black dark:text-white py-10">
           Nos Clients
-        </h2>
+      </h2>
+      <div ref={trackRef}>
         <div className="flex w-max h-[70vh] items-center gap-10 px-40">
           {logos.map((logo, index) => (
             <div

@@ -15,14 +15,14 @@ export default function Contact(){
                     width={600}
                     height={400}
                     alt="Caisse Manager POS System"
-                    className="rounded-lg"
+                    className="rounded-lg ml-10"
                     priority
                 />
                 </div>
             </div>
             
-            <div className="bg-black/30 p-6 rounded-lg border border-gray-800">
-                <form className="space-y-4">
+            <div className=" bg-black/30 p-6 rounded-lg border border-gray-800 mr-10">
+                <form className="space-y-4 ">
                 <Input
                     type="text"
                     placeholder="Nom de marque*"

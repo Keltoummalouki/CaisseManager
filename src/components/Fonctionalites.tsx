@@ -3,12 +3,12 @@ import { CheckSquare } from 'lucide-react'
 
 export default function Fonctionalites(){
     return (
-        <section className="container mx-auto py-16">
+        <section className="container mx-auto py-16 ">
             <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-red-900/20 to-red-600/20 rounded-xl blur-xl"></div>
-            <div className="relative bg-gradient-to-r from-gray-900 to-black rounded-xl overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-8">
+            <div className="absolute -inset-4 bg-gradient-to-r from-red-900/20 to-red-600/20 rounded-xl blur-xl "></div>
+            <div className="relative bg-gradient-to-r from-gray-900 to-black rounded-xl overflow-hidden m-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+                <div className="p-8 ">
                     <Image
                     src="/caisse-manager-logo.png"
                     width={600}
