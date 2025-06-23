@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export default function Contact(){
     return (
-        <section className="container mx-auto py-12 md:py-20">
+        <section className="container mx-auto h-screenpy-12 md:py-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-red-900/20 to-red-600/20 rounded-xl blur-xl"></div>

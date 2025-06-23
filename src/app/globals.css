@@ -1,12 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* @import 'node_modules/locomotive-scroll/dist/locomotive-scroll'; */
 
 @custom-variant dark (&:is(.dark *));
 
 html,
 body {
   overflow: hidden;
+  scroll-behavior: auto;
 }
 
 body {
@@ -138,7 +138,6 @@ html[data-scroll-orientation="horizontal"] {
     }
 }
 
-
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); } 
@@ -161,25 +160,19 @@ html[data-scroll-orientation="horizontal"] {
   transform: translateY(0) !important;
 }
 
-.client-card.is-active {
-  transform: scale(1.1) translateY(-100px);
-  gap: 30px;
-  padding: 1rem;
-  margin: 15px;
-  z-index: 10;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+.client-card {
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
 .client-card .client-info {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  will-change: opacity, transform;
 }
 
-.client-card.is-active .client-info {
-  opacity: 1;
-  transform: translateY(0);
+.client-card img {
+  transition: filter 0.3s ease;
 }
 
-
+.client-card:hover img {
+  filter: grayscale(0);
+}

@@ -5,6 +5,8 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 
+gsap.registerPlugin(ScrollTrigger)
+
 const restaurants = [
   {
     image: '/clients/Crusty.png',
@@ -21,13 +23,22 @@ const restaurants = [
   {
     image: '/clients/lma3loma.png',
     nom: 'Lma3loma',
-    ville: 'Casa',
+    ville: 'Casablanca',
+    adresse: 'Maarif, Bd Zerktouni',
+  },
+  {
+    image: '/clients/TheView360.png',
+    nom: 'The View 360',
+    ville: 'Casablanca',
+    adresse: 'ain sbaa, Bd Zerktouni',
+  },
+  {
+    image: '/clients/fried.png',
+    nom: 'Fried',
+    ville: 'Casablanca',
     adresse: 'Maarif, Bd Zerktouni',
   }
 ]
-
-
-gsap.registerPlugin(ScrollTrigger)
 
 export default function ClientsSection() {
   const sectionRef = useRef<HTMLElement | null>(null)
@@ -57,61 +68,142 @@ export default function ClientsSection() {
     })
 
     cards.forEach((card, index) => {
+      const info = card.querySelector('.client-info') as HTMLElement
+      if (index !== 0) {
+        gsap.set(card, {
+          scale: 1,
+          y: 0,
+        })
+        gsap.set(info, {
+          opacity: 0,
+          y: 30,
+        })
+      } 
+
+      // if (index === 0){
+      //   gsap.set(card, {
+      //     scale: 1.1,
+      //     y: -100,
+      //   })
+      //   gsap.set(info, {
+      //     opacity: 1,
+      //     y: 0,
+      //   })
+      // }
+
       ScrollTrigger.create({
         trigger: card,
         containerAnimation: tl,
         start: 'left center',
         end: 'right center',
-        toggleClass: { targets: card, className: 'is-active' },
-        immediateRender: index === 0,
+        onEnter: () => {
+          gsap.to(card, {
+            scale: 1.1,
+            y: -100,
+            duration: 0.6,
+            ease: 'power3.out',
+          })
+          
+          gsap.fromTo(
+            info,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: 0.1,
+            }
+          )
+        },
+        onLeave: () => {
+          gsap.to(card, {
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'power3.in',
+          })
+          
+          gsap.to(info, {
+            opacity: 0,
+            y: 30,
+            duration: 0.4,
+            ease: 'power3.in',
+          })
+        },
+        onEnterBack: () => {
+          gsap.to(card, {
+            scale: 1.1,
+            y: -100,
+            duration: 0.6,
+            ease: 'power3.out',
+          })
+          
+          gsap.to(info, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 0.1,
+          })
+        },
+        onLeaveBack: () => {
+          gsap.to(card, {
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'power3.in',
+          })
+          
+          gsap.to(info, {
+            opacity: 0,
+            y: 30,
+            duration: 0.4,
+            ease: 'power3.in',
+          })
+        },
       })
     })
 
     const handleResize = () => ScrollTrigger.refresh()
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen bg-white dark:bg-black overflow-hidden"
-    >
+    <section ref={sectionRef} className="relative h-screen bg-white dark:bg-black overflow-hidden">
       <h2 className="text-6xl font-bold text-center text-black dark:text-white py-10 mb-20">
-          Nos Clients
+        Nos Clients
       </h2>
       <div ref={trackRef}>
         <div className="flex w-max h-[70vh] items-center gap-10 px-40">
-        {restaurants.map((restau, index) => (
-          <div
-            key={index}
-            className="client-card min-w-[450px] h-[600px] bg-[#111] rounded-3xl px-12 py-16 shadow-2xl flex flex-col items-center justify-between text-white text-xl font-semibold transition-all duration-500"
-          > 
-            <Image
-              src={restau.image}
-              alt={`Logo ${index}`}
-              width={320}
-              height={500}
-              className="object-contain grayscale hover:grayscale-0 transition"
-            />
-            <div className="client-info mt-25 text-center ">
-              <h3 className="text-2xl font-black text-white mb-2 tracking-tight leading-tight">
-                {restau.nom}
-              </h3>
-              <p className="text-lg text-gray-300 font-medium mb-1">
-                {restau.ville}{restau.adresse}
-              </p>
-              <p className="text-sm text-gray-400 font-light italic leading-snug">
-
-              </p>
+          {restaurants.map((restau, index) => (
+            <div
+              key={index}
+              className="client-card min-w-[450px] h-[600px] px-12 py-20 bg-[#111] rounded-3xl shadow-2xl flex flex-col items-center justify-between text-white text-xl font-semibold gap-10"
+            >
+              <Image
+                src={restau.image}
+                alt={`Logo ${restau.nom}`}
+                width={320}
+                height={500}
+                className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+              />
+              <div className="client-info mt-5 text-center">
+                <h3 className="text-2xl font-black text-white mb-2 tracking-tight leading-tight">
+                  {restau.nom}
+                </h3>
+                <p className="text-lg text-gray-300 font-medium mb-1">
+                  <span className="tex-bold text-white tracking-tight leading-tight">{restau.ville}</span>, {restau.adresse}
+                </p>
+              </div>
             </div>
+          ))}
 
-
-          </div>
-        ))}
-
-
-          <div className="client-card cta-card min-w-[320px] h-[500px] bg-[#111] rounded-3xl px-10 py-14 shadow-xl flex items-center justify-center text-white text-xl font-semibold transition-all duration-500 hover:bg-purple-500 group">
+          <div className="client-card cta-card min-w-[450px] h-[600px] bg-[#111] rounded-3xl px-12 py-20 shadow-2xl flex items-center justify-center text-white text-xl font-semibold transition-all duration-700 ease-in-out hover:bg-purple-500">
             <a
               href="/case-studies"
               className="flex items-center gap-4 text-white font-medium transform transition-transform duration-500 group-hover:scale-105"
