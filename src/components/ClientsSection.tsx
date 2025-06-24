@@ -50,6 +50,7 @@ export default function ClientsSection() {
     if (!section || !track) return;
 
     const cards = gsap.utils.toArray(".client-card") as HTMLElement[];
+    const ctaCard = document.querySelector(".cta-card") as HTMLElement;
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -71,6 +72,8 @@ export default function ClientsSection() {
     });
 
     cards.forEach((card, index) => {
+      if (card.classList.contains("cta-card")) return; 
+      
       const info = card.querySelector(".client-info") as HTMLElement;
       if (index !== 0) {
         gsap.set(card, {
@@ -82,17 +85,6 @@ export default function ClientsSection() {
           y: 30,
         });
       }
-
-      // if (index === 0){
-      //   gsap.set(card, {
-      //     scale: 1.1,
-      //     y: -100,
-      //   })
-      //   gsap.set(info, {
-      //     opacity: 1,
-      //     y: 0,
-      //   })
-      // }
 
       ScrollTrigger.create({
         trigger: card,
@@ -168,6 +160,52 @@ export default function ClientsSection() {
       });
     });
 
+    if (ctaCard) {
+      gsap.set(ctaCard, {
+        scale: 1,
+        y: 0,
+      });
+
+      ScrollTrigger.create({
+        trigger: ctaCard,
+        containerAnimation: tl,
+        start: "left center",
+        end: "right center",
+        onEnter: () => {
+          gsap.to(ctaCard, {
+            scale: 1.1,
+            y: -100,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+        onLeave: () => {
+          gsap.to(ctaCard, {
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power3.in",
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(ctaCard, {
+            scale: 1.1,
+            y: -100,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(ctaCard, {
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power3.in",
+          });
+        },
+      });
+    }
+
     const handleResize = () => ScrollTrigger.refresh();
     window.addEventListener("resize", handleResize);
     return () => {
@@ -186,6 +224,7 @@ export default function ClientsSection() {
       </h2>
       <div ref={trackRef} className="flex w-max items-center gap-15 px-40">
         <div className="shrink-0" style={{ width: "20vw" }}></div>
+        
         {restaurants.map((restau, index) => (
           <div
             key={index}
@@ -212,19 +251,26 @@ export default function ClientsSection() {
           </div>
         ))}
 
-        <div className="client-card cta-card min-w-[450px] h-[600px] bg-[#111] rounded-3xl px-12 py-20 shadow-2xl flex items-center justify-center text-white text-xl font-semibold transition-all duration-700 ease-in-out hover:bg-purple-500">
-          <a
-            href="/case-studies"
-            className="flex items-center gap-4 text-white font-medium transform transition-transform duration-500 group-hover:scale-105"
-          >
-            <span className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-xl transition-all duration-500 group-hover:translate-x-1 group-hover:bg-white group-hover:text-purple-500">
-              →
-            </span>
-            <span className="text-lg whitespace-nowrap transition-colors duration-500 group-hover:text-white">
+        <div className="client-card cta-card min-w-[450px] h-[600px] bg-[#111] dark:bg-[#111] rounded-3xl shadow-2xl cursor-pointer group overflow-hidden relative transition-colors duration-500 ease-in-out hover:bg-white dark:hover:bg-white">
+          <div className="h-full flex items-center justify-center px-12 py-20">
+            <a
+              href="/case-studies"
+              className="flex items-center gap-6 text-white font-medium transform transition-all duration-500 group-hover:text-black"
+            >
+            <div className="relative w-14 h-14 transition-all duration-700 group-hover:scale-150">
+              <div className="absolute inset-0 rounded-full bg-red-500 flex items-center justify-center transition-all duration-700 group-hover:scale-1500" />
+              <span className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold pointer-events-none">
+                →
+              </span>
+            </div>
+            <span className="relative text-white text-xl font-semibold z-10 transition-all duration-500">
               Voir tous nos clients
             </span>
-          </a>
+            </a>
+
+          </div>
         </div>
+
         <div className="shrink-0" style={{ width: "120vw" }}></div>
       </div>
     </section>
